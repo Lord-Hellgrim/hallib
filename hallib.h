@@ -55,7 +55,7 @@ void string_slice(char* result, char* source, unsigned int start, unsigned int s
 }
 
 // This one is a work in progress...
-void split_string(char* s, char split, void* fun) {
+void split_string(char* s, char split, void* (fun(char*))) {
     int len = stringlen(s);
     int i = 0;
     while(s[i] != '\0') {
