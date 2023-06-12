@@ -22,16 +22,20 @@ void string_slice(char* result, char* source, unsigned int start, unsigned int s
     // Up to but not including!
     if (sizeof(result) < stop-start+1) {
         result = "";
+        printf("one");
         return;
     }
     if (stop > stringlen(source)) {
         result = "";
+        printf("two");
         return;
     } else if (start > stop) {
         result = "";
+        printf("three");
         return;
     } else if (start == stop) {
         result = "";
+        printf("four");
         return;
     }else {
         int len = stop-start;
@@ -54,6 +58,7 @@ void spliter(char* s, char split, void (fun(char*))) {
     while(s[i] != '\0') {
         if (s[i] == split) {
             char temp[word+1];
+            printf("%p\n", &temp);
             string_slice(temp, s, i-word, i+1);
             fun(temp);
             printf("word: %d, i: %d\n", word, i);
@@ -65,9 +70,14 @@ void spliter(char* s, char split, void (fun(char*))) {
         }
     }
     // Start back here when you get back.................................................................................
-    char temp[word+1];
-    string_slice(temp, s, i-word, i+1);
-    fun(temp);
-    printf("word: %d, i: %d\n", word, i);
-
+    char tem[2*word];
+    int index = i-word;
+    int t = 0;
+    while (s[index] != '\0') {
+        tem[t] = s[index];
+        t++;
+        index++;
+    }
+    tem[t] = '\0';
+    fun(tem);
 }
