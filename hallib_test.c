@@ -2,7 +2,9 @@
 
 int main() {
     // // The string to be tested
-    char* hello = "hello there, babygirl!";
+    char hello[100] = "hello there, babygirl!";
+    hello[3] = 'X';
+    printf("%s", hello);
 
     // // testing stringlen
     // int len = stringlen(hello);
@@ -14,10 +16,31 @@ int main() {
     // println(slice);
 
     // Testing spliter
-    void all_h(char* temp) {
-        println(temp);
+    void pr(void* temp) {
+        char* x = (char*) temp;
+        println(x);
     }
-    spliter(hello, ' ', *all_h);
 
+    //spliter(hello, ' ', *pr);
+
+    // void all_h(void* s) {
+    //     int i = 0;
+    //     char* check = (char*) s;
+    //     while (*check != '\0') {
+    //         check++;
+    //     }
+    //     char x[i];
+    //     int j = 0;
+    //     int len = stringlen(x);
+    //     while (j<len) {
+    //         x[j] = 'h';
+    //         j++;
+    //     }
+    //     x[len] = '\0';
+    // }
+
+
+    // spliter(hello, ' ', *all_h);
+    // println(hello);
 
 }

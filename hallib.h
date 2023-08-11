@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <stdbool.h>
+
 
 int stringlen(char* s) {
     // Get length of string
@@ -51,33 +55,28 @@ void string_slice(char* result, char* source, unsigned int start, unsigned int s
 }
 
 // This one is a work in progress...
-void spliter(char* s, char split, void (fun(char*))) {
+void spliter(char* s, char split, void (fun(void*))) {
     int len = stringlen(s);
     int i = 0;
-    int word = 0;
-    while(s[i] != '\0') {
+    int last_split = 0;
+    while(i <= len) {
+        printf("%c\n", s[i]);
+        printf("%p\n", &s[i]);
         if (s[i] == split) {
-            char temp[word+1];
-            printf("%p\n", &temp);
-            string_slice(temp, s, i-word, i+1);
-            fun(temp);
-            printf("word: %d, i: %d\n", word, i);
-            word = 0;
+            printf("still going");
+            // s[i] = '\0';
+           // void* x = &s[i];
+           // printf("%p\n", x);
+           // fun(x);
+           // last_split = i;
+           // s[i] = split;
             i++;
         } else {
-            word++;
             i++;
         }
+        s[i] = 'X';
     }
-    // Start back here when you get back.................................................................................
-    char tem[2*word];
-    int index = i-word;
-    int t = 0;
-    while (s[index] != '\0') {
-        tem[t] = s[index];
-        t++;
-        index++;
-    }
-    tem[t] = '\0';
-    fun(tem);
+    void* x = &s[last_split];
+    fun(x);
+
 }
