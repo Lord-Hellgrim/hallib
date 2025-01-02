@@ -4,6 +4,12 @@
 #include <stdlib.h>
 
 
+//##################### ALLOCATORS ################################
+
+
+
+
+
 //##################### ARRAYS ####################################
 
 
@@ -101,7 +107,17 @@ void print_float_array(FloatArray* array) {
 
 //-----------------------------------------------------------------
 
+
+
+
 //#################################################################
+
+
+//##################### ALGORITHMS ################################
+
+
+
+//---------------------- QUICKSORT --------------------------------
 
 void swap(int* a, int* b) {
     int temp = *a;
@@ -150,16 +166,7 @@ void quickSort(int arr[], int low, int high) {
     }
 }
 
-typedef struct {
-    char* pointer;
-    size_t len;
-} String;
-
-typedef struct {
-    char* pointer;
-    size_t cap;
-    size_t len;
-} AutoString;
+//-----------------------------------------------------------------
 
 
 int is_same_bytes(void* a, void* b, int size) {
@@ -189,9 +196,7 @@ int binary_search(int needle, int* haystack, int start, int stop) {
                 return stop;
             }
         }
-
     }
-
     return -1;
 }
 
@@ -211,6 +216,24 @@ int count_instances(int needle, IntArray* haystack, int sorted) {
 }
 
 
+//#################################################################
+
+
+typedef struct {
+    char* pointer;
+    size_t len;
+} String;
+
+typedef struct {
+    char* pointer;
+    size_t cap;
+    size_t len;
+} AutoString;
+
+
+
+
+
 int power(int base, int power) {
 
     int ret = 1;
@@ -220,7 +243,6 @@ int power(int base, int power) {
     }
 
     return ret;
-
 }
 
 int abs(int input) {
