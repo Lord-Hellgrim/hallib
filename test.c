@@ -123,6 +123,19 @@ int test_arena() {
     return 1;   
 }
 
+int test_doubly_linked_list() {
+    Arena arena = arena_create(100);
+    IntDoublyLinkedListNode* root_node = int_doubly_linked_list_init(&arena, 0);
+
+    for (int i = 1; i < 32; i += 1) {
+        int_doubly_linked_list_push_back(root_node, i, &arena);
+    }
+
+    int_doubly_linked_list_print_backwards(root_node);
+
+
+}
+
 #define RUN_TEST(test_func)                                                         \
     do {                                                                            \
         printf("\x1b[1;33mRunning test: %s...\x1b[1;0m", #test_func);               \
@@ -142,4 +155,5 @@ int main() {
     RUN_TEST(test_binary_search);
     RUN_TEST(test_count_instances);
     RUN_TEST(test_arena);
+    RUN_TEST(test_doubly_linked_list);
 }

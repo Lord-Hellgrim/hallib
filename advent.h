@@ -304,19 +304,18 @@ void arena_reset(Arena* arena) {
     arena->current = 0;
 }
 
-void* arena_alloc(size_t number_of_items, size_t size_of_items, char alignment, Arena* arena) {
-    if (arena->current + size_of_items*number_of_items > arena->cap) {
-        arena->buffer = realloc(arena->buffer, arena->cap  + size_of_items*number_of_items*2);
-        arena->cap += size_of_items*number_of_items*2;
+void* arena_alloc(size_t number_of_items, size_t sizeof_items, char alignment, Arena* arena) {
+    if (arena->current + sizeof_items*number_of_items > arena->cap) {
+        arena->buffer = realloc(arena->buffer, arena->cap  + sizeof_items*number_of_items*2);
+        arena->cap += sizeof_items*number_of_items*2;
     }
     if (arena->current % alignment != 0) {
         arena->current += alignment - (arena->current % alignment);
     }
 
-
     void* ret = arena->buffer + arena->current;
 
-    arena->current += size_of_items * number_of_items;
+    arena->current += sizeof_items * number_of_items;
 
     return ret;
 }
@@ -382,3 +381,176 @@ int int_from_string(char* string, size_t len) {
 
     return result;
 }
+
+//############################ DOUBLY LINKED LIST ######################################################
+
+struct IntDoublyLinkedListNode{
+    int value;
+    struct IntDoublyLinkedListNode* previous;
+    struct IntDoublyLinkedListNode* next;
+}; 
+
+typedef struct IntDoublyLinkedListNode IntDoublyLinkedListNode;
+
+IntDoublyLinkedListNode* int_doubly_linked_list_init(Arena* arena, int value) {
+    IntDoublyLinkedListNode* first_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
+    first_node->value = value;
+    return first_node;
+}
+
+
+void int_doubly_linked_list_push_front(IntDoublyLinkedListNode* node, int value, Arena* arena) {
+    while (node->previous != NULL) {
+        node = node->previous;
+    }
+
+    IntDoublyLinkedListNode* new_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
+    new_node->value = value;
+    new_node->previous = NULL;
+    new_node->next = node;
+    node->previous = new_node;
+}
+
+void int_doubly_linked_list_push_back(IntDoublyLinkedListNode* node, int value, Arena* arena) {
+    while (node->next != NULL) {
+        node = node->next;
+    }
+    IntDoublyLinkedListNode* new_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
+    new_node->value = value;
+    new_node->next = NULL;
+    new_node->previous = node;
+    node->next = new_node;
+}
+
+int int_doubly_linked_list_pop_front(IntDoublyLinkedListNode* node) {
+    while (node->next != NULL) {
+        node = node->next;
+    }
+    int return_value = node->value;
+    if (node->previous != NULL) {
+        node = node->previous;
+        node->next = NULL;
+    }
+
+    return return_value;
+}
+
+void int_doubly_linked_list_print_forwards(IntDoublyLinkedListNode* node) {
+    IntDoublyLinkedListNode* save = node; 
+    while (node->previous != NULL) {
+        node = node->previous;
+    }
+
+    int counter = 0;
+    while (node->next) {
+        printf("%d, ", node->value);
+        node = node->next;
+        counter += 1;
+        if (counter == 10) {
+            counter = 0;
+            printf("\n");
+        }
+    }
+    printf("\n");
+
+    node = save;
+}
+
+void int_doubly_linked_list_print_backwards(IntDoublyLinkedListNode* node) {
+    IntDoublyLinkedListNode* save = node; 
+    while (node->next != NULL) {
+        node = node->next;
+    }
+
+    int counter = 0;
+    while (node->previous != NULL) {
+        printf("%d, ", node->value);
+        node = node->previous;
+        counter += 1;
+        if (counter == 10) {
+            counter = 0;
+            printf("\n");
+        }
+    }
+
+    node = save;
+}
+
+//######################################################################################################
+
+//############################ QUEUE ###################################################################
+
+typedef struct {
+    int* front;
+    int* back;
+    int* store;
+} IntDynamicQueue;
+
+//######################################################################################################
+
+//############################ BINARY TREE #############################################################
+
+struct BinaryTreeNode {
+    int value;
+    struct BinaryTreeNode* left;
+    struct BinaryTreeNode* right;
+    struct BinaryTreeNode* up;
+};
+
+typedef struct BinaryTreeNode BinaryTreeNode;
+
+BinaryTreeNode* binary_tree_create() {
+    
+    BinaryTreeNode* root = malloc(sizeof(BinaryTreeNode));
+
+    root->value = 0;
+    root->up = NULL;
+    root->left = NULL;
+    root->right = NULL;
+
+    return root;
+}
+
+BinaryTreeNode* binary_tree_new_node(int value, BinaryTreeNode* parent, BinaryTreeNode* left, BinaryTreeNode* right) {
+    BinaryTreeNode* new_node = malloc(sizeof(BinaryTreeNode));
+
+    new_node->value = value;
+    new_node->up = parent;
+    new_node->left = left;
+    new_node->right = left;
+
+    return new_node;
+}
+
+void binary_tree_add_node(BinaryTreeNode* root_node, int value) {
+    BinaryTreeNode* top = root_node;
+
+    while (1) {
+        printf("Value: '%d'\n", value);
+        if (root_node->value == value) {
+            root_node = top;
+            return;
+        }
+        else if (value < root_node->value) {
+            if (root_node->left == NULL) {
+                root_node->left = binary_tree_new_node(value, root_node, NULL, NULL);
+                root_node = top;
+                return;
+            }
+            root_node = root_node->left;
+        } else if (value > root_node->value) {
+            if (root_node->right == NULL) {
+                root_node->right = binary_tree_new_node(value, root_node, NULL, NULL);
+                root_node = top;
+                return;
+            }
+            root_node = root_node->right;
+        }
+    }
+}
+
+void breadth_first_search(BinaryTreeNode* root_node, int needle) {
+
+}
+
+//#########################################################################################
