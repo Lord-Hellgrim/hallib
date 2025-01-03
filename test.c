@@ -1,7 +1,8 @@
 #include "advent.h"
 
-IntArray make_test_array(size_t cap) {
-    IntArray test_array = new_int_array(cap);
+
+intArray make_test_array(size_t cap) {
+    intArray test_array = new_int_array(cap);
 
     for (int i = 0; i < cap; i++) {
         int_array_push(i, &test_array);
@@ -31,7 +32,7 @@ int test_abs() {
 }
 
 int test_int_array() {
-    IntArray test_array = new_int_array(1000);
+    intArray test_array = new_int_array(1000);
 
     int_array_push(5, &test_array);
 
@@ -47,7 +48,7 @@ int test_float_array() {
 }
 
 int test_quicksort() {
-    IntArray test_array = new_int_array(100);
+    intArray test_array = new_int_array(100);
 
     for (int i = 100; i > 0; i--) {
         int_array_push(i, &test_array);
@@ -78,7 +79,7 @@ int test_binary_search() {
 }
 
 int test_count_instances() {
-    IntArray test_array = new_int_array(100);
+    intArray test_array = new_int_array(100);
     
     int_array_push(1, &test_array);
     int_array_push(2, &test_array);
@@ -132,8 +133,6 @@ int test_doubly_linked_list() {
     }
 
     int_doubly_linked_list_print_backwards(root_node);
-
-
 }
 
 #define RUN_TEST(test_func)                                                         \

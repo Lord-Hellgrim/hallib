@@ -9,7 +9,7 @@ typedef struct {
     size_t end;
 } intArray;
 
-intArray new_int_array(size_t cap) {
+intArray int_array_new(size_t cap) {
     int* pointer = malloc(cap * sizeof(int));
     intArray array = {pointer, cap, 0};
     return array;
@@ -22,7 +22,7 @@ void int_array_clear(intArray* array) {
     }
 }
 
-void destroy_int_array(intArray* array) {
+void int_array_destroy(intArray* array) {
     free(array->pointer);
     array->cap = 0;
     array->end = 0;
@@ -39,7 +39,7 @@ size_t int_array_push(int number, intArray* array) {
 
 }
 
-void print_int_array(intArray* array) {
+void int_array_print(intArray* array) {
     size_t i = 0;
     while (i < array->end) {
         printf("%d\n", array->pointer[i]);
@@ -56,7 +56,7 @@ typedef struct {
     size_t end;
 } floatArray;
 
-floatArray new_int_array(size_t cap) {
+floatArray float_array_new(size_t cap) {
     float* pointer = malloc(cap * sizeof(int));
     floatArray array = {pointer, cap, 0};
     return array;
@@ -69,7 +69,7 @@ void float_array_clear(floatArray* array) {
     }
 }
 
-void destroy_int_array(floatArray* array) {
+void float_array_destroy(floatArray* array) {
     free(array->pointer);
     array->cap = 0;
     array->end = 0;
@@ -86,10 +86,10 @@ size_t float_array_push(int number, floatArray* array) {
 
 }
 
-void print_int_array(floatArray* array) {
+void float_array_print(floatArray* array) {
     size_t i = 0;
     while (i < array->end) {
-        printf("%d\n", array->pointer[i]);
+        printf("%f\n", array->pointer[i]);
         i += 1;
     }
 }

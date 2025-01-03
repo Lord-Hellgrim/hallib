@@ -2,115 +2,13 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "generated_code.c"
 
 
 //##################### ALLOCATORS ################################
 
 
 
-
-
-//##################### ARRAYS ####################################
-
-
-//----------------------INTS---------------------------------------
-typedef struct {
-    int* pointer;
-    size_t cap;
-    size_t end;
-} IntArray;
-
-IntArray new_int_array(size_t cap) {
-    int* pointer = malloc(cap * sizeof(int));
-    IntArray array = {pointer, cap, 0};
-    return array;
-}
-
-void int_array_clear(IntArray* array) {
-    size_t i = 0;
-    while (i < array->end) {
-        array->pointer[i] = 0;
-    }
-}
-
-void destroy_int_array(IntArray* array) {
-    free(array->pointer);
-    array->cap = 0;
-    array->end = 0;
-}
-
-size_t int_array_push(int number, IntArray* array) {
-    if (array->end > array->cap) {
-        return 0;
-    }
-
-    array->pointer[array->end] = number;
-    array->end++;
-    return 1;
-
-}
-
-void print_int_array(IntArray* array) {
-    size_t i = 0;
-    while (i < array->end) {
-        printf("%d\n", array->pointer[i]);
-        i += 1;
-    }
-}
-
-//-----------------------------------------------------------------
-
-//----------------------FLOATS-------------------------------------
-typedef struct {
-    float* pointer;
-    size_t cap;
-    size_t end;
-} FloatArray;
-
-FloatArray new_float_array(size_t cap) {
-    float* pointer = malloc(cap * sizeof(float));
-    FloatArray array = {pointer, cap, 0};
-    return array;
-}
-
-void float_array_clear(FloatArray* array) {
-    size_t i = 0;
-    while (i < array->end) {
-        array->pointer[i] = 0;
-    }
-}
-
-void destroy_float_array(FloatArray* array) {
-    free(array->pointer);
-    array->cap = 0;
-    array->end = 0;
-}
-
-size_t float_array_push(int number, FloatArray* array) {
-    if (array->end > array->cap) {
-        return 0;
-    }
-
-    array->pointer[array->end] = number;
-    array->end++;
-    return 1;
-
-}
-
-void print_float_array(FloatArray* array) {
-    size_t i = 0;
-    while (i < array->end) {
-        printf("%f\n", array->pointer[i]);
-        i += 1;
-    }
-}
-
-//-----------------------------------------------------------------
-
-
-
-
-//#################################################################
 
 
 //##################### ALGORITHMS ################################
@@ -200,7 +98,7 @@ int binary_search(int needle, int* haystack, int start, int stop) {
     return -1;
 }
 
-int count_instances(int needle, IntArray* haystack, int sorted) {
+int count_instances(int needle, intArray* haystack, int sorted) {
     int count = 0;
 
     int trigger = 0;
@@ -384,97 +282,97 @@ int int_from_string(char* string, size_t len) {
 
 //############################ DOUBLY LINKED LIST ######################################################
 
-struct IntDoublyLinkedListNode{
-    int value;
-    struct IntDoublyLinkedListNode* previous;
-    struct IntDoublyLinkedListNode* next;
-}; 
+// struct IntDoublyLinkedListNode{
+//     int value;
+//     struct IntDoublyLinkedListNode* previous;
+//     struct IntDoublyLinkedListNode* next;
+// }; 
 
-typedef struct IntDoublyLinkedListNode IntDoublyLinkedListNode;
+// typedef struct IntDoublyLinkedListNode IntDoublyLinkedListNode;
 
-IntDoublyLinkedListNode* int_doubly_linked_list_init(Arena* arena, int value) {
-    IntDoublyLinkedListNode* first_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
-    first_node->value = value;
-    return first_node;
-}
+// IntDoublyLinkedListNode* int_doubly_linked_list_init(Arena* arena, int value) {
+//     IntDoublyLinkedListNode* first_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
+//     first_node->value = value;
+//     return first_node;
+// }
 
 
-void int_doubly_linked_list_push_front(IntDoublyLinkedListNode* node, int value, Arena* arena) {
-    while (node->previous != NULL) {
-        node = node->previous;
-    }
+// void int_doubly_linked_list_push_front(IntDoublyLinkedListNode* node, int value, Arena* arena) {
+//     while (node->previous != NULL) {
+//         node = node->previous;
+//     }
 
-    IntDoublyLinkedListNode* new_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
-    new_node->value = value;
-    new_node->previous = NULL;
-    new_node->next = node;
-    node->previous = new_node;
-}
+//     IntDoublyLinkedListNode* new_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
+//     new_node->value = value;
+//     new_node->previous = NULL;
+//     new_node->next = node;
+//     node->previous = new_node;
+// }
 
-void int_doubly_linked_list_push_back(IntDoublyLinkedListNode* node, int value, Arena* arena) {
-    while (node->next != NULL) {
-        node = node->next;
-    }
-    IntDoublyLinkedListNode* new_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
-    new_node->value = value;
-    new_node->next = NULL;
-    new_node->previous = node;
-    node->next = new_node;
-}
+// void int_doubly_linked_list_push_back(IntDoublyLinkedListNode* node, int value, Arena* arena) {
+//     while (node->next != NULL) {
+//         node = node->next;
+//     }
+//     IntDoublyLinkedListNode* new_node = arena_alloc(1, sizeof(IntDoublyLinkedListNode), sizeof(IntDoublyLinkedListNode), arena);
+//     new_node->value = value;
+//     new_node->next = NULL;
+//     new_node->previous = node;
+//     node->next = new_node;
+// }
 
-int int_doubly_linked_list_pop_front(IntDoublyLinkedListNode* node) {
-    while (node->next != NULL) {
-        node = node->next;
-    }
-    int return_value = node->value;
-    if (node->previous != NULL) {
-        node = node->previous;
-        node->next = NULL;
-    }
+// int int_doubly_linked_list_pop_front(IntDoublyLinkedListNode* node) {
+//     while (node->next != NULL) {
+//         node = node->next;
+//     }
+//     int return_value = node->value;
+//     if (node->previous != NULL) {
+//         node = node->previous;
+//         node->next = NULL;
+//     }
 
-    return return_value;
-}
+//     return return_value;
+// }
 
-void int_doubly_linked_list_print_forwards(IntDoublyLinkedListNode* node) {
-    IntDoublyLinkedListNode* save = node; 
-    while (node->previous != NULL) {
-        node = node->previous;
-    }
+// void int_doubly_linked_list_print_forwards(IntDoublyLinkedListNode* node) {
+//     IntDoublyLinkedListNode* save = node; 
+//     while (node->previous != NULL) {
+//         node = node->previous;
+//     }
 
-    int counter = 0;
-    while (node->next) {
-        printf("%d, ", node->value);
-        node = node->next;
-        counter += 1;
-        if (counter == 10) {
-            counter = 0;
-            printf("\n");
-        }
-    }
-    printf("\n");
+//     int counter = 0;
+//     while (node->next) {
+//         printf("%d, ", node->value);
+//         node = node->next;
+//         counter += 1;
+//         if (counter == 10) {
+//             counter = 0;
+//             printf("\n");
+//         }
+//     }
+//     printf("\n");
 
-    node = save;
-}
+//     node = save;
+// }
 
-void int_doubly_linked_list_print_backwards(IntDoublyLinkedListNode* node) {
-    IntDoublyLinkedListNode* save = node; 
-    while (node->next != NULL) {
-        node = node->next;
-    }
+// void int_doubly_linked_list_print_backwards(IntDoublyLinkedListNode* node) {
+//     IntDoublyLinkedListNode* save = node; 
+//     while (node->next != NULL) {
+//         node = node->next;
+//     }
 
-    int counter = 0;
-    while (node->previous != NULL) {
-        printf("%d, ", node->value);
-        node = node->previous;
-        counter += 1;
-        if (counter == 10) {
-            counter = 0;
-            printf("\n");
-        }
-    }
+//     int counter = 0;
+//     while (node->previous != NULL) {
+//         printf("%d, ", node->value);
+//         node = node->previous;
+//         counter += 1;
+//         if (counter == 10) {
+//             counter = 0;
+//             printf("\n");
+//         }
+//     }
 
-    node = save;
-}
+//     node = save;
+// }
 
 //######################################################################################################
 

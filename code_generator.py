@@ -14,7 +14,7 @@ typedef struct {
     size_t end;
 } {{CAPS_TYPE}}Array;
 
-{{CAPS_TYPE}}Array new_int_array(size_t cap) {
+{{CAPS_TYPE}}Array {{TYPE}}_array_new(size_t cap) {
     {{TYPE}}* pointer = malloc(cap * sizeof(int));
     {{CAPS_TYPE}}Array array = {pointer, cap, 0};
     return array;
@@ -27,7 +27,7 @@ void {{TYPE}}_array_clear({{CAPS_TYPE}}Array* array) {
     }
 }
 
-void destroy_int_array({{CAPS_TYPE}}Array* array) {
+void {{TYPE}}_array_destroy({{CAPS_TYPE}}Array* array) {
     free(array->pointer);
     array->cap = 0;
     array->end = 0;
@@ -44,7 +44,7 @@ size_t {{TYPE}}_array_push(int number, {{CAPS_TYPE}}Array* array) {
 
 }
 
-void print_int_array({{CAPS_TYPE}}Array* array) {
+void {{TYPE}}_array_print({{CAPS_TYPE}}Array* array) {
     size_t i = 0;
     while (i < array->end) {
         printf("%d\n", array->pointer[i]);
